@@ -1,0 +1,22 @@
+# Lokale Python-Umgebung
+.venv/
+
+# Projektdaten werden nicht veröffentlicht
+data/
+
+# Lokale MLflow-Daten und Modellartefakte
+mlruns/
+mlflow.db
+
+# Jupyter-Zwischenspeicher
+.ipynb_checkpoints/
+
+# Python-Zwischendateien
+__pycache__/
+*.py[cod]
+
+# macOS-Systemdateien
+.DS_Store
+
+# Lokale VS-Code-Einstellungen
+.vscode/
