@@ -111,3 +111,4 @@ wcwidth==0.9.1
 Werkzeug==3.1.9
 yarl==1.25.1
 zipp==4.1.0
+streamlit==1.64.0
