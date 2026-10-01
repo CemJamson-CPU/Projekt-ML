@@ -9,7 +9,7 @@ import streamlit as st
 # Projektpfad, MLflow-Datenbank und ausgewählter Champion-Run
 PROJECT_DIR = Path(__file__).resolve().parent
 TRACKING_DB = PROJECT_DIR / "mlflow.db"
-CHAMPION_RUN_ID = "8fc4677111f24798aac65c1cac66c5ab"
+EXPERIMENT_NAME = "personality_type"
 
 
 # Die 19 Fragen und ihre Spaltennamen aus dem Trainingsdatensatz
@@ -46,12 +46,38 @@ SCALE = {
 }
 
 
-# Gespeicherte Champion-Pipeline nur einmal aus MLflow laden
+# Aktuellen Champion-Run suchen und Pipeline nur einmal aus MLflow laden
 @st.cache_resource
 def load_champion_model():
     mlflow.set_tracking_uri(f"sqlite:///{TRACKING_DB}")
+
+    experiment = mlflow.get_experiment_by_name(
+        EXPERIMENT_NAME
+    )
+
+    if experiment is None:
+        raise RuntimeError(
+            "The MLflow experiment was not found. "
+            "Run modeling.ipynb first."
+        )
+
+    champion_runs = mlflow.search_runs(
+        experiment_ids=[experiment.experiment_id],
+        filter_string="tags.selection = 'champion'",
+        order_by=["start_time DESC"],
+        max_results=1,
+    )
+
+    if champion_runs.empty:
+        raise RuntimeError(
+            "No champion run was found. "
+            "Run modeling.ipynb first."
+        )
+
+    champion_run_id = champion_runs.iloc[0]["run_id"]
+
     return mlflow.sklearn.load_model(
-        f"runs:/{CHAMPION_RUN_ID}/model"
+        f"runs:/{champion_run_id}/model"
     )
 
 
