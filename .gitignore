@@ -3,6 +3,7 @@
 
 # Lokale MLflow-Daten und Modellartefakte
 mlruns/
+mlartifacts/
 mlflow.db
 
 # Jupyter-Zwischenspeicher

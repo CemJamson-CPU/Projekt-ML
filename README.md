@@ -82,7 +82,18 @@ Das ausgewählte Modell erhält den Tag:
 selection = champion
 ```
 
-Die Streamlit-App sucht automatisch den neuesten als `champion` markierten Run und lädt dessen vollständige Pipeline über die zugehörige Run-ID.
+### Champion-Evidence
+
+Als Auswahlmetrik wurde der mittlere Macro-F1-Wert der Kreuzvalidierung verwendet.
+
+- Champion-Modell: Logistische Regression
+- CV-F1-Macro: 0,7683
+- Test-Accuracy: 0,8471
+- Test-F1-Macro: 0,7545
+- Dokumentierte Champion-Run-ID: `8fc4677111f24798aac65c1cac66c5ab`
+
+Diese Run-ID gehört zum dokumentierten Modeling-Durchlauf des Hauptprojekts. Bei einem neuen vollständigen Modeling-Durchlauf erzeugt MLflow eine neue Run-ID. Die Streamlit-App sucht deshalb automatisch den neuesten mit `selection = champion` markierten Run und lädt dessen Pipeline über die aktuelle Run-ID.
+
 
 MLflow kann im Projektordner folgendermaßen gestartet werden:
 
@@ -151,5 +162,33 @@ Die App enthält Eingabefelder für:
 Nach dem Absenden werden die Eingaben an die vollständige Champion-Pipeline übergeben und der vorhergesagte Persönlichkeitstyp wird angezeigt.
 
 ## Hinweis
+
+## Zielvariable und Klassen
+
+Die vorherzusagende Zielvariable heißt `target`.
+
+Im verwendeten Datensatz kommen folgende Klassen vor:
+
+- Moderate
+- Resilient
+- Overcontroller
+- Undercontroller
+
+Das Codebook nennt zusätzlich die Klasse `Reserved`. Diese Klasse kommt im bereitgestellten Datensatz jedoch nicht vor und kann deshalb vom trainierten Modell nicht erlernt oder vorhergesagt werden.
+
+## Bekannte Limitationen
+
+- Die Zielvariable wurde aus Antworten des Persönlichkeitsfragebogens abgeleitet, die teilweise gleichzeitig als Eingaben des Modells dienen. Das Modell bildet daher vor allem die im Datensatz verwendete Zuordnungslogik nach.
+- Die Ergebnisse wurden nur mit dem vorliegenden Datensatz überprüft. Eine externe Validierung mit unabhängigen Daten wurde nicht durchgeführt.
+- Die im Codebook genannte Klasse `Reserved` fehlt im Datensatz.
+- Die Vorhersage ist keine psychologische oder medizinische Diagnose.
+- Die lokal erzeugten MLflow-Daten werden nicht bei GitHub gespeichert. Nach einem frischen Clone muss deshalb zuerst `modeling.ipynb` ausgeführt werden.
+
+## Sinnvolle nächste Schritte
+
+- Das Modell mit einem unabhängigen Datensatz validieren.
+- Die fehlende Klasse `Reserved` fachlich und datenbezogen untersuchen.
+- Weitere Modelle oder Einstellungen nur dann prüfen, wenn sie einen begründeten zusätzlichen Erkenntnisgewinn versprechen.
+- Die Streamlit-App bereitstellen, falls für die Abgabe ein öffentlicher Deployment-Link verlangt wird.
 
 Dieses Projekt wurde zu Lernzwecken erstellt. Die ausgegebene Vorhersage ist keine psychologische oder medizinische Diagnose.
