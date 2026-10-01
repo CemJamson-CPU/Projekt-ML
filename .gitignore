@@ -1,9 +1,6 @@
 # Lokale Python-Umgebung
 .venv/
 
-# Projektdaten werden nicht veröffentlicht
-data/
-
 # Lokale MLflow-Daten und Modellartefakte
 mlruns/
 mlflow.db
